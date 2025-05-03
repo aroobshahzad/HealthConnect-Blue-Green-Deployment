@@ -9,8 +9,7 @@ pipeline {
             steps {
                 script {
                     echo "Deploying Blue Environment"
-                    // Deploy the Blue environment here (e.g., via Docker or cloud provider)
-                    sh 'docker-compose up -d blue'
+                    bat 'docker-compose up -d blue'
                 }
             }
         }
@@ -18,8 +17,7 @@ pipeline {
             steps {
                 script {
                     echo "Deploying Green Environment"
-                    // Deploy the Green environment here (e.g., via Docker or cloud provider)
-                    sh 'docker-compose up -d green'
+                    bat 'docker-compose up -d green'
                 }
             }
         }
@@ -27,10 +25,9 @@ pipeline {
             steps {
                 script {
                     echo "Running Tests"
-                    // Running unit tests, integration tests, and security tests
-                    sh 'pytest tests/unit_tests.py'
-                    sh 'pytest tests/integration_tests.py'
-                    sh 'zap-cli quick-scan http://green-server-url'
+                    bat 'pytest tests\\unit_tests.py'
+                    bat 'pytest tests\\integration_tests.py'
+                    bat 'zap-cli quick-scan http://green-server-url'
                 }
             }
         }
@@ -38,8 +35,7 @@ pipeline {
             steps {
                 script {
                     echo "Switching Traffic to Green"
-                    // Commands to switch traffic from Blue to Green (e.g., via load balancer)
-                    sh 'switch-traffic.sh'
+                    bat 'switch-traffic.bat'
                 }
             }
         }
@@ -50,10 +46,10 @@ pipeline {
             steps {
                 script {
                     echo "Rolling back to Blue"
-                    // Commands to rollback to the Blue environment
-                    sh 'rollback.sh'
+                    bat 'rollback.bat'
                 }
             }
         }
     }
 }
+
